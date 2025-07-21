@@ -2,17 +2,23 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Home as HomeIcon, Phone } from "lucide-react";
+import { MapPin, Home as HomeIcon, LogOut, User } from "lucide-react";
 import heroImage from "@/assets/hero-car-wash.jpg";
 
 const Home = () => {
   const navigate = useNavigate();
   const [selectedLocation, setSelectedLocation] = useState<string>("");
+  const userPhone = localStorage.getItem("userPhone") || "";
 
   const handleLocationSelect = (location: string) => {
     setSelectedLocation(location);
-    // Navigate to vehicle selection with location
     navigate("/vehicle-selection", { state: { location } });
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userPhone");
+    navigate("/login");
   };
 
   return (
@@ -24,10 +30,16 @@ const Home = () => {
             <h1 className="text-2xl font-bold text-primary">Hana Car Solutions</h1>
             <p className="text-sm text-muted-foreground">Professional Automotive Care</p>
           </div>
-          <Button variant="outline" size="sm">
-            <Phone className="h-4 w-4" />
-            Contact
-          </Button>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <User className="h-4 w-4" />
+              <span>+91 {userPhone}</span>
+            </div>
+            <Button variant="outline" size="sm" onClick={handleLogout}>
+              <LogOut className="h-4 w-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
       </header>
 

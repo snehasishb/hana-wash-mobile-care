@@ -79,19 +79,29 @@ const Booking = () => {
     return Math.round(basePrice * (1 - discount / 100));
   };
 
+  const generateBookingId = () => {
+    const timestamp = Date.now();
+    const random = Math.floor(Math.random() * 1000);
+    return `HC${timestamp.toString().slice(-8)}${random.toString().padStart(3, '0')}`;
+  };
+
   const handleBookService = () => {
     if (!selectedDate || !selectedTime) return;
+    
+    const bookingId = generateBookingId();
     
     navigate("/confirmation", {
       state: {
         booking: {
+          id: bookingId,
           location: serviceLocation,
           vehicle,
           services,
           date: selectedDate,
           time: selectedTime,
           plan: selectedPlan,
-          totalPrice: getTotalPrice()
+          totalPrice: getTotalPrice(),
+          customerPhone: localStorage.getItem("userPhone") || ""
         }
       }
     });

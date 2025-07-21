@@ -8,7 +8,9 @@ import VehicleSelection from "./pages/VehicleSelection";
 import ServiceSelection from "./pages/ServiceSelection";
 import Booking from "./pages/Booking";
 import Confirmation from "./pages/Confirmation";
+import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -19,11 +21,12 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/vehicle-selection" element={<VehicleSelection />} />
-          <Route path="/service-selection" element={<ServiceSelection />} />
-          <Route path="/booking" element={<Booking />} />
-          <Route path="/confirmation" element={<Confirmation />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/vehicle-selection" element={<ProtectedRoute><VehicleSelection /></ProtectedRoute>} />
+          <Route path="/service-selection" element={<ProtectedRoute><ServiceSelection /></ProtectedRoute>} />
+          <Route path="/booking" element={<ProtectedRoute><Booking /></ProtectedRoute>} />
+          <Route path="/confirmation" element={<ProtectedRoute><Confirmation /></ProtectedRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

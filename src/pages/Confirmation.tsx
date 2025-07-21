@@ -1,8 +1,9 @@
+import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Calendar, Clock, MapPin, Phone, Home as HomeIcon } from "lucide-react";
+import { CheckCircle, Calendar, Clock, MapPin, Phone, Home as HomeIcon, Hash } from "lucide-react";
 import { format } from "date-fns";
 
 const Confirmation = () => {
@@ -10,8 +11,13 @@ const Confirmation = () => {
   const location = useLocation();
   const { booking } = location.state || {};
 
+  useEffect(() => {
+    if (!booking) {
+      navigate("/");
+    }
+  }, [booking, navigate]);
+
   if (!booking) {
-    navigate("/");
     return null;
   }
 
@@ -70,6 +76,21 @@ const Confirmation = () => {
               <CardDescription>Please keep this information for your reference</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              
+              {/* Booking ID */}
+              <div className="flex justify-between items-center py-2 border-b">
+                <span className="text-muted-foreground">Booking ID</span>
+                <div className="flex items-center gap-2">
+                  <Hash className="h-4 w-4" />
+                  <span className="font-mono font-medium">{booking.id}</span>
+                </div>
+              </div>
+
+              {/* Customer Phone */}
+              <div className="flex justify-between items-center py-2 border-b">
+                <span className="text-muted-foreground">Customer Phone</span>
+                <span className="font-medium">+91 {booking.customerPhone}</span>
+              </div>
               
               {/* Service Type & Vehicle */}
               <div className="flex justify-between items-center py-2 border-b">
